@@ -1,0 +1,76 @@
+
+# ==============================================================================
+# Yet Another Smart Vent - Example ESPHome Configuration
+# ==============================================================================
+#
+# Example configuration for an individual smart vent using a Wemos D1 Mini.
+#
+# This configuration loads the shared smart vent controls from:
+#
+#   esphome/common/yet-another-smart-vent-base.yaml
+#
+# Copy this file and change the device name and friendly name for each vent.
+#
+# ==============================================================================
+
+
+# ==============================================================================
+# Vent Settings
+# ==============================================================================
+
+substitutions:
+  # Time used by ESPHome to transition the servo between positions.
+  servo_transition_length: 3s
+
+  # Prevent another scripted command from being issued while the vent is moving.
+  command_lockout: 4s
+
+
+# ==============================================================================
+# Shared Smart Vent Configuration
+# ==============================================================================
+
+packages:
+  device_base: !include common/yet-another-smart-vent-base.yaml
+
+
+# ==============================================================================
+# Device
+# ==============================================================================
+
+esphome:
+  name: example-hvac-vent
+  friendly_name: Example HVAC Vent
+
+esp8266:
+  board: d1_mini
+
+
+# ==============================================================================
+# ESPHome Services
+# ==============================================================================
+
+logger:
+
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+  - platform: esphome
+
+
+# ==============================================================================
+# Network
+# ==============================================================================
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Emergency fallback access point.
+  ap:
+    ssid: "Example HVAC Vent Fallback Hotspot"
+    password: !secret fallback_ap_password
+
+captive_portal:
