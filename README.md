@@ -93,7 +93,8 @@ Servo limits can vary between builds, so **calibrate your own vent before using 
 The problem: <img width="140" height="200" alt="ventproblem" src="https://github.com/user-attachments/assets/a2b4010a-c261-4662-9cb8-a01e30924789" />
 Original covers did not cover all the wall damage from old vents. 
 
-The frame files contained in this repository are **my own designs**.
+The frame files contained in this repository are **my own designs**.  <img width="300" height="180" alt="Frameimage" src="https://github.com/user-attachments/assets/c5c81a90-9ff3-47f1-8d7e-3905f943ea98" />
+
 
 They are not modified copies of the original project's frame STL files.
 
