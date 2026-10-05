@@ -90,6 +90,9 @@ Servo limits can vary between builds, so **calibrate your own vent before using 
 
 # My 3D Printable Frames
 
+The problem: <img width="70" height="100" alt="ventproblem" src="https://github.com/user-attachments/assets/a2b4010a-c261-4662-9cb8-a01e30924789" />
+Original covers did not cover all the wall damage from old vents. 
+
 The frame files contained in this repository are **my own designs**.
 
 They are not modified copies of the original project's frame STL files.
