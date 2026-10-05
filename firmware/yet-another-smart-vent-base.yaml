@@ -1,0 +1,160 @@
+globals:
+  - id: vent_busy
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+
+
+output:
+  - platform: esp8266_pwm
+    id: vent_servo_output
+    pin: D3
+    frequency: 50 Hz
+
+
+servo:
+  - id: vent_servo
+    output: vent_servo_output
+    transition_length: ${servo_transition_length}
+    auto_detach_time: 500ms
+
+
+esphome:
+  on_boot:
+    priority: -100
+    then:
+      - delay: 2s
+      - logger.log: "Setting vent to open position"
+      - servo.write:
+          id: vent_servo
+          level: 0%
+
+
+script:
+  - id: open_vent
+    mode: single
+    then:
+      - if:
+          condition:
+            lambda: 'return !id(vent_busy);'
+          then:
+            - lambda: 'id(vent_busy) = true;'
+            - logger.log: "Opening vent 100%"
+            - servo.write:
+                id: vent_servo
+                level: 0%
+            - delay: ${command_lockout}
+            - lambda: 'id(vent_busy) = false;'
+
+
+  - id: vent_75
+    mode: single
+    then:
+      - if:
+          condition:
+            lambda: 'return !id(vent_busy);'
+          then:
+            - lambda: 'id(vent_busy) = true;'
+            - logger.log: "Opening vent 75%"
+            - servo.write:
+                id: vent_servo
+                level: -20%
+            - delay: ${command_lockout}
+            - lambda: 'id(vent_busy) = false;'
+
+
+  - id: vent_50
+    mode: single
+    then:
+      - if:
+          condition:
+            lambda: 'return !id(vent_busy);'
+          then:
+            - lambda: 'id(vent_busy) = true;'
+            - logger.log: "Opening vent 50%"
+            - servo.write:
+                id: vent_servo
+                level: -40%
+            - delay: ${command_lockout}
+            - lambda: 'id(vent_busy) = false;'
+
+
+  - id: vent_25
+    mode: single
+    then:
+      - if:
+          condition:
+            lambda: 'return !id(vent_busy);'
+          then:
+            - lambda: 'id(vent_busy) = true;'
+            - logger.log: "Opening vent 25%"
+            - servo.write:
+                id: vent_servo
+                level: -60%
+            - delay: ${command_lockout}
+            - lambda: 'id(vent_busy) = false;'
+
+
+  - id: close_vent
+    mode: single
+    then:
+      - if:
+          condition:
+            lambda: 'return !id(vent_busy);'
+          then:
+            - lambda: 'id(vent_busy) = true;'
+            - logger.log: "Closing vent"
+            - servo.write:
+                id: vent_servo
+                level: -80%
+            - delay: ${command_lockout}
+            - lambda: 'id(vent_busy) = false;'
+
+
+cover:
+  - platform: template
+    id: vent
+    name: "Vent"
+    device_class: damper
+    optimistic: true
+    has_position: true
+
+    open_action:
+      - script.execute: open_vent
+
+    close_action:
+      - script.execute: close_vent
+
+    position_action:
+      - logger.log:
+          format: "Requested vent position: %.0f%%"
+          args: [ 'pos * 100.0f' ]
+
+      - servo.write:
+          id: vent_servo
+          level: !lambda |-
+            // 0% open = servo -80%
+            // 100% open = servo 0%
+            return -0.80f + (pos * 0.80f);
+
+    stop_action:
+      - logger.log: "Stopping vent"
+      - servo.detach: vent_servo
+      - lambda: 'id(vent_busy) = false;'
+
+
+button:
+  - platform: template
+    name: "Vent 25%"
+    on_press:
+      - script.execute: vent_25
+
+  - platform: template
+    name: "Vent 50%"
+    on_press:
+      - script.execute: vent_50
+
+  - platform: template
+    name: "Vent 75%"
+    on_press:
+      - script.execute: vent_75
