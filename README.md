@@ -74,7 +74,7 @@ The goal isn't to redesign the original vent controller. It's to keep the same b
 My current configuration uses:
 
 - **ESP8266 D1 Mini**
-- Servo on **D3**
+- Servo on **D3**   I use the DFRobot DMS-MG90-A
 - **50 Hz** servo frequency
 - Approximately **7 second** movement transition
 - Automatic servo detachment after movement
