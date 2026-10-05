@@ -141,5 +141,32 @@ Please refer to the original repository for its licensing terms and attribution 
 And if this repository helps you build one, please give the **original Yet Another Smart Vent project a star as well**. They did the hard part that made these additions possible.
 
 ---
+## 🙌 Original Project & Attribution
 
-**Learn it. Build it. Put it into practice.**
+This repository is a companion to the excellent [Yet Another Smart Vent](https://github.com/BrobstonCreations/yet-another-smart-vent) project by BrobstonCreations.
+
+The original project provides the core smart vent design and mechanism. I did not create the original vent mechanism.
+
+This repository contains additions I developed while building and using the project, including:
+
+- Updated configuration for modern ESPHome
+- Home Assistant HVAC automation examples
+- Additional control and fail-safe logic
+- Independently designed 3D-printable vent frames for additional vent sizes
+- Notes and improvements from real-world use
+
+If you're building the vent itself, **start with the original project**. This repository is intended to supplement it, not replace it.
+
+## 📜 License
+
+This repository contains work covered by multiple licenses because it includes both derivatives of the original project and independently created additions.
+
+- **Software derived from the original Yet Another Smart Vent project:** AGPL-3.0
+- **Original 3D-printable frame designs by Lee Perkins:** CERN-OHL-W-2.0
+- **Independently written Home Assistant automations:** MIT
+- **Original documentation and media:** Copyright © 2026 Lee Perkins unless otherwise noted
+- **Purpose in Practice branding:** All rights reserved
+
+Copyright and licensing for material originating from BrobstonCreations remain with the original project and its contributors.
+
+See [LICENSE.md](LICENSE.md) for complete licensing and attribution information.
