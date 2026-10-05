@@ -109,12 +109,12 @@ For the louvers, gears, servo mechanism, electronics mounting, assembly instruct
 
 https://github.com/BrobstonCreations/yet-another-smart-vent
 
-## Available Frame Sizes
+## Available Frame Sizes see 3d Print folder for STL files. 
 
 <!-- Add your actual frame sizes here -->
 
-- TBD
-- TBD
+- 4X10
+- 6x12
 - TBD
 
 Additional sizes may be added as I install more vents.
