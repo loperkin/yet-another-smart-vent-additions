@@ -1,0 +1,107 @@
+# ==============================================================================
+# Move Smart Vent Servo to Middle
+# ==============================================================================
+#
+# Temporary ESPHome configuration used to center the servo during smart vent
+# assembly or calibration.
+#
+# On boot, the servo will:
+#
+#   1. Move fully to one side
+#   2. Move fully to the opposite side
+#   3. Return to the center position
+#
+# This makes it easier to mechanically align the servo and vent mechanism
+# before final assembly.
+#
+# Hardware:
+#   Board: Wemos D1 Mini / ESP8266
+#   Servo Signal: D3
+#
+# This is a setup/calibration utility and is NOT intended to be the normal
+# operating firmware for the smart vent.
+#
+# ==============================================================================
+
+esphome:
+  name: move-servo-to-middle
+  friendly_name: Move Servo to Middle
+
+  on_boot:
+    priority: -100
+    then:
+      # Allow ESPHome and the servo output to initialize.
+      - delay: 2s
+
+      # Move fully to one side.
+      - servo.write:
+          id: vent_servo
+          level: -100%
+      - delay: 2s
+
+      # Move fully to the opposite side.
+      - servo.write:
+          id: vent_servo
+          level: 100%
+      - delay: 2s
+
+      # Return the servo to its mechanical center.
+      - servo.write:
+          id: vent_servo
+          level: 0%
+
+
+# ==============================================================================
+# ESP8266
+# ==============================================================================
+
+esp8266:
+  board: d1_mini
+
+
+# ==============================================================================
+# ESPHome Services
+# ==============================================================================
+
+logger:
+
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+  - platform: esphome
+
+
+# ==============================================================================
+# Network
+# ==============================================================================
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Emergency fallback access point.
+  ap:
+    ssid: "Smart Vent Setup"
+    password: !secret fallback_ap_password
+
+captive_portal:
+
+web_server:
+
+
+# ==============================================================================
+# Servo
+# ==============================================================================
+
+output:
+  - platform: esp8266_pwm
+    id: vent_servo_output
+    pin: D3
+    frequency: 50 Hz
+
+servo:
+  - id: vent_servo
+    output: vent_servo_output
+
